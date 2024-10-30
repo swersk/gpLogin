@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  schedule:
+    - cron: "0 9 * * 1-5 /Users/lswersky/Desktop/cezanneLogin/run-playwright.sh >> /Users/lswersky/Desktop/cezanneLogin/playwright.log 2>&1"  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Playwright Script
+        run: node ./run-playwright.js
