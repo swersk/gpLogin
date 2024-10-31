@@ -11,15 +11,26 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
+
+      - name: Skip specified dates
+        id: date-check
+        run: |
+          CURRENT_DATE=$(date +'%m-%d')
+          if [[ "$CURRENT_DATE" == "11-01" || "$CURRENT_DATE" == "12-25" || "$CURRENT_DATE" =~ ^12-(2[6-9]|3[0-1])$ || "$CURRENT_DATE" == "01-01" ]]; then
+            echo "Date is excluded, skipping job."
+            exit 0
+          fi
 
       - name: Install dependencies
+        if: steps.date-check.outcome != 'success'  # Continue if not skipped
         run: npm install
 
       - name: Run Playwright Script
-        run: node ./run-playwright.sh   
+        if: steps.date-check.outcome != 'success'  # Continue if not skipped
+        run: node ./run-playwright.sh
