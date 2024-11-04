@@ -17,12 +17,10 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        if: steps.date-check.outcome != 'success'  # Continue if not skipped
         run: npm install
 
       - name: Install Playwright Browsers
         run: npx playwright install
 
       - name: Run Playwright Script
-        if: steps.date-check.outcome != 'success'  # Continue if not skipped
         run: bash ./run-playwright.sh

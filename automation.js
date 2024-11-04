@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 
 (async () => {
   // Launch the browser in UI mode (headless: false to see it in action)
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ headless: true });
 
   const context = await browser.newContext();
   const page = await context.newPage();
