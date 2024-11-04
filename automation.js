@@ -37,6 +37,11 @@ import { chromium } from 'playwright';
   await page.screenshot({ path: './screenshots/06-accept-clicked.png' });
   console.log('✅ Logged in!');
 
+  // Wait for the logout element to appear and take a screenshot
+  await page.waitForSelector('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
+  await page.screenshot({ path: './screenshots/07-logout-button-appeared.png' });
+  console.log('Logout button appeared!');
+
   // Close the browser
   await browser.close();
 })();
