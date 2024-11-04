@@ -12,5 +12,5 @@ if [[ "$TODAY" == "11-01" || "$TODAY" == "12-06" || \
   exit 0
 fi
 
-cd /Users/lswersky/Desktop/cezanneLogin
-/usr/local/bin/node automation.js
+# Run the Playwright automation script
+node automation.js
