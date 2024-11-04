@@ -26,7 +26,7 @@ jobs:
 
       - name: Upload screenshots
         if: always()  # Always run this step to capture screenshots even if the script fails
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: './screenshots/*.png'   
