@@ -23,10 +23,3 @@ jobs:
       - name: Run Playwright Script
         if: steps.date-check.outcome != 'success'  # Continue if not skipped
         run: node ./run-playwright.sh
-
-      - name: Upload screenshots
-        if: always()  # Always run this step to capture screenshots even if the script fails
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshots
-          path: './screenshots/*.png'   
