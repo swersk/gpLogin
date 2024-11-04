@@ -22,4 +22,4 @@ jobs:
 
       - name: Run Playwright Script
         if: steps.date-check.outcome != 'success'  # Continue if not skipped
-        run: node ./run-playwright.sh
+        run: bash ./run-playwright.sh
