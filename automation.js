@@ -1,47 +1,31 @@
 import { chromium } from 'playwright';
 
-(async () => {
-  // Launch the browser in UI mode (headless: false to see it in action)
-  const browser = await chromium.launch({ headless: true });
+const action = process.argv[2]; 
 
+if (!['clock-in', 'clock-out'].includes(action)) {
+  console.error('Invalid action! Use "clock-in" or "clock-out".');
+  process.exit(1);
+}
+
+(async () => {
+  const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  // Navigate to the login page
-  const url = 'https://w3.cezanneondemand.com/CezanneOnDemand/-/GreenpeaceEspana/Account/LogIn';  
+  const url = 'https://w3.cezanneondemand.com/CezanneOnDemand/-/GreenpeaceEspana/Account/LogIn';
   await page.goto(url);
-  await page.screenshot({ path: 'screenshots/01-login-page.png' });
-  console.log('Navigated to login page!');
-
-  // Enter Username
-  await page.fill('input[name="Username"]', 'lswersky@greenpeace.org'); 
-  await page.screenshot({ path: './screenshots/02-username-filled.png' });
-  console.log('Username entered!');
-
-  // Enter Password
+  await page.fill('input[name="Username"]', 'lswersky@greenpeace.org');
   await page.fill('#Password', 'crv1rpz6GQZ@hwa0una');
-  await page.screenshot({ path: './screenshots/03-password-filled.png' });
-  console.log('Password entered!');
+  await page.click('#login-form > form > div:nth-child(5) > button');
 
-  // Click Login Button
-  await page.click('#login-form > form > div:nth-child(5) > button')
-  await page.screenshot({ path: './screenshots/04-login-clicked.png' });
-  console.log('Login button clicked!');
+  if (action === 'clock-in') {
+    await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-green');
+    console.log('Clock-In completed!');
+  } else if (action === 'clock-out') {
+    await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
+    console.log('Clock-Out completed!');
+  }
 
-  // Click the "Hora de entrada" button
-  await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-green');
-  await page.screenshot({ path: './screenshots/05-clock-in-clicked.png' });
-
-  // Click the "Aceptar" button
   await page.click('button.cz-primary-button:has-text("Aceptar")');
-  await page.screenshot({ path: './screenshots/06-accept-clicked.png' });
-  console.log('✅ Logged in!');
-
-  // Wait for the logout element to appear and take a screenshot
-  await page.waitForSelector('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
-  await page.screenshot({ path: './screenshots/07-logout-button-appeared.png' });
-  console.log('Logout button appeared!');
-
-  // Close the browser
   await browser.close();
 })();

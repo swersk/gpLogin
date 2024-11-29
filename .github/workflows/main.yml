@@ -2,7 +2,8 @@ name: CI
 
 on:
   schedule:
-    - cron: '0 9 * * 1-5'  # Runs at 9 AM UTC, Monday to Friday
+    - cron: '0 9 * * 1-5'  # Runs at 9 AM UTC, Monday to Friday (Clock-In)
+    - cron: '0 16 * * 1-5' # Runs at 4 PM UTC, Monday to Friday (Clock-Out)
   workflow_dispatch:
 
 jobs:
@@ -25,7 +26,9 @@ jobs:
         run: npx playwright install
 
       - name: Run Playwright Script
-        run: bash ./run-playwright.sh
+        run: |
+          echo "Executing Playwright with action ${{ github.event.schedule == '0 9 * * 1-5' && 'clock-in' || 'clock-out' }}"
+          bash ./run-playwright.sh ${{ github.event.schedule == '0 9 * * 1-5' && 'clock-in' || 'clock-out' }}
 
       - name: Upload screenshots
         if: always()
