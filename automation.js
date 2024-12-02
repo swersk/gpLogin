@@ -1,4 +1,7 @@
 import { chromium } from 'playwright';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const action = process.argv[2]; 
 
@@ -14,19 +17,25 @@ if (!['clock-in', 'clock-out'].includes(action)) {
 
   const url = 'https://w3.cezanneondemand.com/CezanneOnDemand/-/GreenpeaceEspana/Account/LogIn';
   await page.goto(url);
-  await page.fill('input[name="Username"]', 'lswersky@greenpeace.org');
-  await page.fill('#Password', 'crv1rpz6GQZ@hwa0una');
+  await page.fill('input[name="Username"]', process.env.USERNAME);
+  await page.fill('#Password', process.env.PASSWORD);
   await page.click('#login-form > form > div:nth-child(5) > button');
 
   if (action === 'clock-in') {
+    console.log('Clock-in process initiated...');
     await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-green');
-    await page.screenshot({ path: './screenshots/clock-in.png' });
-    console.log('Clock-In completed!');
+    await page.screenshot({ path: './screenshots/05-clock-in-clicked.png' });
+    console.log('Clock-in clicked');
+    await page.click('button.cz-primary-button:has-text("Aceptar")');
+    await page.screenshot({ path: './screenshots/06-accept-clicked.png' });
+    console.log('✅ Logged in!');
   } else if (action === 'clock-out') {
+    console.log('Clock-out process initiated...');
     await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
-    await page.screenshot({ path: './screenshots/clock-out.png' });
-    console.log('Clock-Out completed!');
+    await page.screenshot({ path: './screenshots/06-clock-out-clicked.png' });
+    console.log('Clock-out clicked');
+    await page.click('button.cz-primary-button:has-text("Aceptar")');
+    console.log('✅ Logged out!');
   }
-  await page.click('button.cz-primary-button:has-text("Aceptar")');
   await browser.close();
 })();
