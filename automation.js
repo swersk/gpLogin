@@ -20,12 +20,13 @@ if (!['clock-in', 'clock-out'].includes(action)) {
 
   if (action === 'clock-in') {
     await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-green');
+    await page.screenshot({ path: './screenshots/clock-in.png' });
     console.log('Clock-In completed!');
   } else if (action === 'clock-out') {
     await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
+    await page.screenshot({ path: './screenshots/clock-out.png' });
     console.log('Clock-Out completed!');
   }
-
   await page.click('button.cz-primary-button:has-text("Aceptar")');
   await browser.close();
 })();
