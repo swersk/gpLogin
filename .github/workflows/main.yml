@@ -36,3 +36,4 @@ jobs:
         with:
           name: screenshots
           path: './screenshots/*.png'
+          if-no-files-found: warn  # Avoid failing if the folder is empty
