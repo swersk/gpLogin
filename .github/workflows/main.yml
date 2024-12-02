@@ -27,8 +27,16 @@ jobs:
 
       - name: Run Playwright Script
         run: |
-          echo "Executing Playwright with action ${{ github.event.schedule == '0 9 * * 1-5' && 'clock-in' || 'clock-out' }}"
-          bash ./run-playwright.sh ${{ github.event.schedule == '0 9 * * 1-5' && 'clock-in' || 'clock-out' }}
+          if [[ "$(date +%H)" == "09" ]]; then
+            echo "Clocking in"
+            bash ./run-playwright.sh clock-in
+          elif [[ "$(date +%H)" == "16" ]]; then
+            echo "Clocking out"
+            bash ./run-playwright.sh clock-out
+          else
+            echo "Invalid schedule time"
+            exit 1
+          fi
 
       - name: Upload screenshots
         if: always()
@@ -36,4 +44,4 @@ jobs:
         with:
           name: screenshots
           path: './screenshots/*.png'
-          if-no-files-found: warn  # Avoid failing if the folder is empty
+          if-no-files-found: warn
