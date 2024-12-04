@@ -37,6 +37,9 @@ jobs:
             echo "Invalid schedule time"
             exit 1
           fi
+        env: 
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
 
       - name: Upload screenshots
         if: always()
