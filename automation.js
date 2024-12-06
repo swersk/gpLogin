@@ -17,10 +17,13 @@ if (!['clock-in', 'clock-out'].includes(action)) {
   const url = 'https://w3.cezanneondemand.com/CezanneOnDemand/-/GreenpeaceEspana/Account/LogIn';
 
   if (action === 'clock-in') {
+    console.log("Logging in...");
     await page.goto(url);
     await page.screenshot({ path: './screenshots/01-url.png' });
     await page.fill('input[name="Username"]', process.env.USERNAME);
+    console.log("Username entered with username: ", process.env.USERNAME);
     await page.fill('#Password', process.env.PASSWORD);
+    console.log("Password. entered.");
     await page.screenshot({ path: './screenshots/02-login-info.png' });
     await page.click('#login-form > form > div:nth-child(5) > button');
     console.log('Clock-in process initiated...');
@@ -31,10 +34,13 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     await page.screenshot({ path: './screenshots/06-accept-clicked.png' });
     console.log('✅ Logged in!');
   } else if (action === 'clock-out') {
+    console.log("Logging out...");
     await page.goto(url);
     await page.screenshot({ path: './screenshots/01-url.png' });
     await page.fill('input[name="Username"]', process.env.USERNAME);
+    console.log("Username entered with username: ", process.env.USERNAME);
     await page.fill('#Password', process.env.PASSWORD);
+    console.log("Password. entered.");
     await page.screenshot({ path: './screenshots/02-login-info.png' });
     await page.click('#login-form > form > div:nth-child(5) > button');
     console.log('Clock-out process initiated...');
