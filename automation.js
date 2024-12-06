@@ -1,6 +1,4 @@
-import { chromium } from 'playwright';
-import dotenv from 'dotenv';
-dotenv.config();
+import { chromium } from 'playwright'; 
 
 
 const action = process.argv[2]; 
