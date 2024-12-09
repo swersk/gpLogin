@@ -24,12 +24,7 @@ jobs:
 
       - name: Install Playwright Browsers
         run: npx playwright install
-
-      - name: Set Time Zone
-        run: |
-          echo "Setting time zone to Europe/Madrid"
-          export TZ="Europe/Madrid"
-
+        
       - name: Run Playwright Script
         run: |
           if [[ "$(date +%H)" == "09" ]]; then
