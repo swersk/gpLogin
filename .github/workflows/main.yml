@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Playwright Script
         run: |
-          if [[ "$(date +%H)" -gt 9 && "$(date +%H)" -lt 15 ]]; then
+          if [[ $((10#$(date +%H))) -gt 9 && $((10#$(date +%H))) -lt 15 ]]; then
             echo "Clocking in..."
             bash ./run-playwright.sh clock-in
           elif [[ "$(date +%H)" == "16" ]]; then
