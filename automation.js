@@ -1,6 +1,4 @@
 import { chromium } from 'playwright'; 
-
-
 const action = process.argv[2]; 
 
 if (!['clock-in', 'clock-out'].includes(action)) {
@@ -37,12 +35,16 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     await page.screenshot({ path: './screenshots/06-accept-clicked.png' });
     console.log('✅ Accept button clicked'); 
     const clockOutLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de salida' });
-    await clockOutLabel.waitForElementState('visible');
-    if (!clockOutLabel) {
-      console.error('Clock-out label not found.');
+    console.log("Waiting for the 'Clock-out' label to be visible...");
+    try {
+      await clockOutLabel.waitFor({ state: 'visible', timeout: 5000 });  
+      console.log("✅ 'Clock-out' label is visible.");
+      await clockOutLabel.screenshot({ path: './screenshots/07-clock-out-label-visible.png' });
+    } catch (error) {
+      console.error("❌ Error: 'Clock-out' label did not become visible within the timeout.", error);
+      await page.screenshot({ path: './screenshots/07-clock-out-label-error.png' });
+      process.exit(1);  
     }
-    await clockOutLabel.screenshot({ path: './screenshots/07-clock-out-label-visible.png' });
-    console.log('✅ Logged in!');
   } else if (action === 'clock-out') {
     console.log("Logging out...");
     await page.goto(url);
@@ -63,6 +65,12 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     await page.screenshot({ path: './screenshots/06-clock-out-clicked.png' });
     console.log('Clock-out clicked');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
+    const clockInLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de llegada' });
+    await clockInLabel.waitForElementState('visible');
+    if (!clockInLabel) {
+      console.error('Clock-in label not found.');
+    }
+    await clockInLabel.screenshot({ path: './screenshots/07-clock-out-label-visible.png' });
     console.log('✅ Logged out!');
   }
   await browser.close();
