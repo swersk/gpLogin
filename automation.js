@@ -35,6 +35,13 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     console.log('Clock-in clicked');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
     await page.screenshot({ path: './screenshots/06-accept-clicked.png' });
+    console.log('✅ Accept button clicked'); 
+    const clockOutLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de salida' });
+    await clockOutLabel.waitForElementState('visible');
+    if (!clockOutLabel) {
+      console.error('Clock-out label not found.');
+    }
+    await clockOutLabel.screenshot({ path: './screenshots/07-clock-out-label-visible.png' });
     console.log('✅ Logged in!');
   } else if (action === 'clock-out') {
     console.log("Logging out...");
