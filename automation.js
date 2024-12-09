@@ -18,6 +18,11 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     console.log("Logging in...");
     await page.goto(url);
     await page.screenshot({ path: './screenshots/01-url.png' });
+    const username = process.env.USERNAME
+    if (!username) {
+      console.error('Username is undefined.');
+      process.exit(1);
+    }
     await page.fill('input[name="Username"]', process.env.USERNAME);
     console.log("Username entered with username: ", process.env.USERNAME);
     await page.fill('#Password', process.env.PASSWORD);
@@ -35,6 +40,11 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     console.log("Logging out...");
     await page.goto(url);
     await page.screenshot({ path: './screenshots/01-url.png' });
+    const username = process.env.USERNAME
+    if (!username) {
+      console.error('Username is undefined.');
+      process.exit(1);
+    }
     await page.fill('input[name="Username"]', process.env.USERNAME);
     console.log("Username entered with username: ", process.env.USERNAME);
     await page.fill('#Password', process.env.PASSWORD);
