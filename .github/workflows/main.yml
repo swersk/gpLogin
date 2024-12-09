@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Playwright Script
         run: |
-          if [[ "$(date +%H)" == "11" ]]; then
+          if [[ "$(date +%H)" lt "12" ]]; then
             echo "Clocking in..."
             bash ./run-playwright.sh clock-in
           elif [[ "$(date +%H)" == "16" ]]; then
