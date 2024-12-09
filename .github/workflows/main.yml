@@ -25,6 +25,9 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install
 
+      - name: Set Time Zone
+        run: echo "Europe/Madrid" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+
       - name: Run Playwright Script
         run: |
           if [[ "$(date +%H)" -lt "12" ]]; then
