@@ -37,7 +37,7 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     const clockOutLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de salida' });
     console.log("Waiting for the 'Clock-out' label to be visible...");
     try {
-      await clockOutLabel.waitFor({ state: 'visible', timeout: 5000 });  
+      await clockOutLabel.waitFor({ state: 'visible'});  
       console.log("✅ 'Clock-out' label is visible.");
       await clockOutLabel.screenshot({ path: './screenshots/07-clock-out-label-visible.png' });
     } catch (error) {
@@ -66,7 +66,7 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     console.log('Clock-out clicked');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
     const clockInLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de llegada' });
-    await clockInLabel.waitForElementState('visible');
+    await clockInLabel.isVisible();
     if (!clockInLabel) {
       console.error('Clock-in label not found.');
     }
