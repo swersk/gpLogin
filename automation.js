@@ -65,11 +65,11 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     await page.screenshot({ path: './screenshots/06-clock-out-clicked.png' });
     console.log('Clock-out clicked');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
-    const clockInLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de llegada' });
-    await clockInLabel.isVisible();
-    if (!clockInLabel) {
-      console.error('Clock-in label not found.');
-    }
+    // const clockInLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de llegada' });
+    // await clockInLabel.isVisible();
+    // if (!clockInLabel) {
+    //   console.error('Clock-in label not found.');
+    // }
     await clockInLabel.screenshot({ path: './screenshots/07-clock-out-label-visible.png' });
     console.log('✅ Logged out!');
   }
