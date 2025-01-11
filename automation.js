@@ -65,7 +65,8 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     console.log('Clock-out clicked.');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
     const clockInLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de llegada' });
-    await clockInLabel.isVisible();
+    await page.screenshot({ path: './screenshots/debug-before-wait.png' });
+    await clockInLabel.waitFor({ state: 'visible', timeout: 60000 }); 
     if (!clockInLabel) {
       console.error('Clock-in label not found.');
     }
