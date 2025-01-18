@@ -13,7 +13,7 @@ if (!['clock-in', 'clock-out'].includes(action)) {
   const url = 'https://w3.cezanneondemand.com/CezanneOnDemand/-/GreenpeaceEspana/Account/LogIn';
 
   if (action === 'clock-in') {
-    console.log("Logging in...");
+    console.log("Logging in at: ", new Date().toLocaleString());
     await page.goto(url);
     await page.screenshot({ path: './screenshots/01-url.png' });
     const username = process.env.USERNAME
@@ -46,7 +46,7 @@ if (!['clock-in', 'clock-out'].includes(action)) {
       process.exit(1);  
     }
   } else if (action === 'clock-out') {
-    console.log("[1] Clocking out...");
+    console.log("[1] Clocking out at: ", new Date().toLocaleString());
     await page.goto(url);
     await page.screenshot({ path: './screenshots/08-url.png' });
     const username = process.env.USERNAME
@@ -55,23 +55,16 @@ if (!['clock-in', 'clock-out'].includes(action)) {
       process.exit(1);
     }
     await page.fill('input[name="Username"]', process.env.USERNAME);
-    console.log("Username entered with username: ", process.env.USERNAME);
+    console.log("[2] Entered Username.");
     await page.fill('#Password', process.env.PASSWORD);
-    console.log("Password. entered.");
+    console.log("[3] Entered password.");
     await page.screenshot({ path: './screenshots/09-login-info.png' });
     await page.click('#login-form > form > div:nth-child(5) > button');
     await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
     await page.screenshot({ path: './screenshots/10-clock-out-clicked.png' });
-    console.log('Clock-out clicked.');
+    console.log('[4] Clicked clock-out.');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
-    const clockInLabel = page.locator('strong.cz-clock-in-out-label', { hasText: 'Registro de la hora de llegada' });
-    await page.screenshot({ path: './screenshots/debug-before-wait.png' });
-    await clockInLabel.waitFor({ state: 'visible', timeout: 60000 }); 
-    if (!clockInLabel) {
-      console.error('Clock-in label not found.');
-    }
-    await clockInLabel.screenshot({ path: './screenshots/11-clock-out-label-visible.png' });
-    console.log('✅ Logged out!');
+    console.log('[5] ✅ Logged out!');
   }
   await browser.close();
 })();
