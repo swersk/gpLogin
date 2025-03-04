@@ -1,5 +1,4 @@
 import { chromium } from 'playwright'; 
-import { expect } from '@playwright/test';
 const action = process.argv[2]; 
 import fs from 'fs';
 
@@ -62,7 +61,6 @@ if (!['clock-in', 'clock-out'].includes(action)) {
       process.exit(1);
     }
     const usernameInput = await page.locator('input[name="Username"]');
-    expect(usernameInput).not.toBeNull();
     await usernameInput.fill(process.env.USERNAME);
     console.log("[2] Entered Username.");
     await page.fill('#Password', process.env.PASSWORD);
@@ -76,7 +74,6 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     await page.click('button.cz-primary-button:has-text("Aceptar")');
     console.log('[5] ✅ Logged out!');
     const loginForm = page.locator('form#login-form');
-    await expect(loginForm).toBeVisible({ timeout: 5000 });
     await page.screenshot({ path: './screenshots/11-logged-out.png' });
   }
   await browser.close();
