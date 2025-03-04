@@ -1,5 +1,12 @@
 import { chromium } from 'playwright'; 
+import { expect } from '@playwright/test';
 const action = process.argv[2]; 
+import fs from 'fs';
+
+if (!fs.existsSync('./screenshots')) {
+  fs.mkdirSync('./screenshots', { recursive: true });
+}
+
 
 if (!['clock-in', 'clock-out'].includes(action)) {
   console.error('Invalid action! Use "clock-in" or "clock-out".');
@@ -51,20 +58,26 @@ if (!['clock-in', 'clock-out'].includes(action)) {
     await page.screenshot({ path: './screenshots/08-url.png' });
     const username = process.env.USERNAME
     if (!username) {
-      console.error('Username is undefined. Cannot proceed with clock-out.');
+      console.error('While logging out, username is undefined. Cannot proceed with clock-out.');
       process.exit(1);
     }
-    await page.fill('input[name="Username"]', process.env.USERNAME);
+    const usernameInput = await page.locator('input[name="Username"]');
+    expect(usernameInput).not.toBeNull();
+    await usernameInput.fill(process.env.USERNAME);
     console.log("[2] Entered Username.");
     await page.fill('#Password', process.env.PASSWORD);
     console.log("[3] Entered password.");
     await page.screenshot({ path: './screenshots/09-login-info.png' });
     await page.click('#login-form > form > div:nth-child(5) > button');
     await page.click('button.cz-clock-in-button-dot.cz-clock-in-button-blue');
+    await page.waitForTimeout(1000); 
     await page.screenshot({ path: './screenshots/10-clock-out-clicked.png' });
     console.log('[4] Clicked clock-out.');
     await page.click('button.cz-primary-button:has-text("Aceptar")');
     console.log('[5] ✅ Logged out!');
+    const loginForm = page.locator('form#login-form');
+    await expect(loginForm).toBeVisible({ timeout: 5000 });
+    await page.screenshot({ path: './screenshots/11-logged-out.png' });
   }
   await browser.close();
 })();
